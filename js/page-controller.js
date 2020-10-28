@@ -29,8 +29,7 @@ document.querySelector('.loc-btn').addEventListener('click', (ev) => {
     panTo(35.6895, 139.6917);
 })
 
-
-export function initMap(lat = 32.0749831, lng = 34.9120554) {
+function initMap(lat = 32.0749831, lng = 34.9120554) {
     return _connectGoogleApi()
         .then(() => {
             gMap = new google.maps.Map(
@@ -40,6 +39,16 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
                 })
         })
 }
+// export function initMap(lat = 32.0749831, lng = 34.9120554) {  --- code from the materials
+//     return _connectGoogleApi()
+//         .then(() => {
+//             gMap = new google.maps.Map(
+//                 document.querySelector('#map'), {
+//                     center: { lat, lng },
+//                     zoom: 15
+//                 })
+//         })
+// }
 
 function addMarker(loc) {
     var marker = new google.maps.Marker({
@@ -68,7 +77,7 @@ function onSetSearch(ev) {
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-    const API_KEY = 'AIzaSyAb-nOgpqD_gjhW9jUy6raZW06HfTaFhPI'; //TODO: Enter your API Key
+    const API_KEY = 'AIzaSyAb-nOgpqD_gjhW9jUy6raZW06HfTaFhPI';
     var elGoogleApi = document.createElement('script');
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
     elGoogleApi.async = true;
