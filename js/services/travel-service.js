@@ -1,5 +1,6 @@
 'use strict';
 
+const STORAGE_LOC_KEY = 'locationsDB';
 var gLocations;
 
 function getSearchRes(term) {
@@ -8,14 +9,19 @@ function getSearchRes(term) {
 }
 
 function setSearch(val) {
-    const res = getSearchRes(val)
-    console.log('After getting from axios:', res)
+    getSearchRes(val)
+        .then(res => {
+            var location =
+
+                console.log('After getting from axios:', res)
+        })
+        // saveLocationsToStorage(currLocation)
 }
 
 function saveLocationsToStorage(currLocation) {
-    var currStorage = loadFromStorage();
-    currStorage.push(currLocation);
-    saveToStorage();
+    gLocations = loadFromStorage();
+    gLocations.push(currLocation);
+    saveToStorage(STORAGE_LOC_KEY, gLocations);
 }
 
 export const travelService = {
