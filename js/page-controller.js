@@ -1,10 +1,10 @@
 'use strict';
 
-import { storageService } from './services/storage-service-service.js';
+import { storageService } from './services/storage-service.js';
 import { travelService } from './services/travel-service.js';
 import { mapService } from './services/map-service.js';
 
-window.onload.addEventListener('load', onInit);
+window.addEventListener('load', onInit);
 
 function onInit() {
     console.log('Hello Tips!');

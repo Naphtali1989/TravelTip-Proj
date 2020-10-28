@@ -17,5 +17,5 @@ export const storageService = {
 }
 
 function justForTest() {
-    console.log('hello')
+    console.log('hello!')
 }
