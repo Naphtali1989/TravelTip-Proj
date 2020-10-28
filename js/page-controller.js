@@ -4,7 +4,7 @@ import { storageService } from './services/storage-service-service.js';
 import { travelService } from './services/travel-service.js';
 import { mapService } from './services/map-service.js';
 
-window.addEventListener('load', onInit);
+window.onload.addEventListener('load', onInit);
 
 function onInit() {
     console.log('Hello Tips!');
@@ -15,3 +15,4 @@ function onInit() {
 // test if export works: 
 // travelService.iAmAFunction()
 // mapService.iAmAMap()
+storageService.justForTest()
