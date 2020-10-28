@@ -26,13 +26,25 @@ function setSearch(val) {
         .then(res => {
             console.log('response from weather API:', res);
         })
-        // saveLocationsToStorage(currLocation)
+    var currLocation;
+    getSearchRes(val)
+        .then(ans => {
+            currLocation = {
+                searchTerm: val,
+                results: ans.results,
+            }
+            return currLocation;
+        })
+        .then(saveLocationsToStorage);
+    // 
 }
 
 function saveLocationsToStorage(currLocation) {
-    gLocations = loadFromStorage();
+    gLocations = loadFromStorage(STORAGE_LOC_KEY);
+    if (!gLocations) gLocations = [];
     gLocations.push(currLocation);
     saveToStorage(STORAGE_LOC_KEY, gLocations);
+    console.log('gLocations is:', gLocations)
 }
 
 export const travelService = {
