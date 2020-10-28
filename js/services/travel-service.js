@@ -3,7 +3,7 @@
 // import { storageService } from "./storage-service";
 
 function getSearchRes(term) {
-    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${term}&key=AIzaSyCQigCXfm-p5j0gFc2LVoLLhd1EW1gXWTo`)
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${term}&key=AIzaSyAb-nOgpqD_gjhW9jUy6raZW06HfTaFhPI`)
         .then(res => res.data)
 
 }

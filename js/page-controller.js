@@ -10,16 +10,13 @@ mapService.getLocs()
     .then(locs => console.log('locs', locs))
 
 window.onload = () => {
-
     initMap()
         .then(() => {
             addMarker({ lat: 32.0749831, lng: 34.9120554 });
         })
         .catch(console.log);
-
     getPosition()
         .then(pos => {
-
             console.log('User position is:', pos.coords);
         })
         .catch(err => {
@@ -34,16 +31,13 @@ document.querySelector('.loc-btn').addEventListener('click', (ev) => {
 
 
 export function initMap(lat = 32.0749831, lng = 34.9120554) {
-    console.log('InitMap');
     return _connectGoogleApi()
         .then(() => {
-            console.log('google available');
             gMap = new google.maps.Map(
                 document.querySelector('#map'), {
                     center: { lat, lng },
                     zoom: 15
                 })
-            console.log('Map!', gMap);
         })
 }
 
@@ -61,12 +55,20 @@ function panTo(lat, lng) {
     gMap.panTo(laLatLng);
 }
 
+function onSetSearch(ev) {
+    ev.preventDefault()
+    var elInput = document.querySelector('input[name=search-bar]')
+    travelService.setSearch(elInput.value)
+}
+
+
+
 
 
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-    const API_KEY = 'AIzaSyCQigCXfm-p5j0gFc2LVoLLhd1EW1gXWTo'; //TODO: Enter your API Key
+    const API_KEY = 'AIzaSyAb-nOgpqD_gjhW9jUy6raZW06HfTaFhPI'; //TODO: Enter your API Key
     var elGoogleApi = document.createElement('script');
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
     elGoogleApi.async = true;
@@ -121,13 +123,6 @@ function _connectGoogleApi() {
 
 // }
 
-function onSetSearch(ev) {
-    ev.preventDefault()
-    console.log('in the set search')
-    var elInput = document.querySelector('input[name=search-bar]')
-    console.log(elInput)
-    travelService.setSearch(elInput.value)
-}
 
 // test if export works: 
 // travelService.iAmAFunction()
