@@ -26,8 +26,11 @@ window.onload = () => {
 document.querySelector('.search-form').addEventListener('submit', onSetSearch)
 
 document.querySelector('.loc-btn').addEventListener('click', (ev) => {
-    console.log('Aha!', ev.target);
-    panTo(35.6895, 139.6917);
+    mapService.getPosition()
+        .then(ans => {
+            panTo(ans.coords.latitude, ans.coords.longitude)
+        });
+
 })
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
