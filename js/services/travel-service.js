@@ -20,7 +20,17 @@ function getCurrWeather(term) {
 function setSearch(val) {
     getCurrWeather(val)
         .then(res => {
-            console.log('response from weather API:', res);
+            const { icon, description } = res.weather[0];
+            const { speed } = res.wind;
+            const { humidity, temp } = res.main;
+            const currWeather = {
+                icon,
+                description,
+                speed,
+                humidity,
+                temp: convertToCelius(temp)
+            }
+            console.log('response from weather API:', currWeather);
         })
     getSearchRes(val)
         .then(ans => {
@@ -45,6 +55,13 @@ function saveLocationsToStorage(currLocation) {
 export const travelService = {
     iAmAFunction,
     setSearch,
+}
+
+
+
+
+function convertToCelius(temp) {
+    return parseInt(temp - 273.15);
 }
 
 // test if export works: 

@@ -77,8 +77,6 @@ function onSetSearch(ev) {
 
 
 
-
-
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
     const API_KEY = 'AIzaSyAb-nOgpqD_gjhW9jUy6raZW06HfTaFhPI';
@@ -92,6 +90,7 @@ function _connectGoogleApi() {
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
 }
+
 
 
 
