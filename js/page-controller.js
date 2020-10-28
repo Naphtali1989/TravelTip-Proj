@@ -104,10 +104,14 @@ function renderWeatherBox() {
 
 }
 
-function onSetSearch() {
-    console.log('in the set search')
-    var elInput = document.querySelector('input[name=search-bar]')
-    console.log(elInput)
+function onSetSearch(ev) {
+    ev.preventDefault();
+    var elInput = document.querySelector('input[name=search-bar]');
+    travelServices.setSearch(elInput.value);
+    renderCurrLocation();
+    renderMyLocations();
+    renderWeatherBox();
+    elInput.value = '';
 }
 
 // test if export works: 
