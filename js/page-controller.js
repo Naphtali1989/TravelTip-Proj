@@ -1,6 +1,5 @@
 'use strict';
 
-import { storageService } from './services/storage-service.js';
 import { travelService } from './services/travel-service.js';
 import { mapService } from './services/map-service.js';
 
@@ -9,7 +8,7 @@ window.addEventListener('load', onInit);
 function onInit() {
     console.log('Hello Tips!');
     mapService.initMap();
-
+    document.querySelector('.search-form').addEventListener('submit', onSetSearch)
 }
 
 function renderMyLocations() {
@@ -17,7 +16,7 @@ function renderMyLocations() {
 }
 
 function renderCurrLocation() {
-    console.log('this is the curr  locations')
+    console.log('this is the curr locations')
 
 }
 
@@ -26,6 +25,11 @@ function renderWeatherBox() {
 
 }
 
+function onSetSearch() {
+    console.log('in the set search')
+    var elInput = document.querySelector('input[name=search-bar]')
+    console.log(elInput)
+}
 
 // test if export works: 
 // travelService.iAmAFunction()
