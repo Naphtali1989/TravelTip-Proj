@@ -104,11 +104,6 @@ function _connectGoogleApi() {
 
 
 
-// function onInit() {
-//     console.log('Hello Tips!');
-//     // mapService.initMap()
-//     document.querySelector('.search-form').addEventListener('submit', onSetSearch)
-// }
 
 // function renderMyLocations() {
 //     console.log('this is going to be my locations')
