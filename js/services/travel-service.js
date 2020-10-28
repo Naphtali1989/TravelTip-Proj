@@ -9,19 +9,25 @@ function getSearchRes(term) {
 }
 
 function setSearch(val) {
+    var currLocation;
     getSearchRes(val)
-        .then(res => {
-            var location =
-
-                console.log('After getting from axios:', res)
+        .then(ans => {
+            currLocation = {
+                searchTerm: val,
+                results: ans.results,
+            }
+            return currLocation;
         })
-        // saveLocationsToStorage(currLocation)
+        .then(saveLocationsToStorage);
+    // 
 }
 
 function saveLocationsToStorage(currLocation) {
-    gLocations = loadFromStorage();
+    gLocations = loadFromStorage(STORAGE_LOC_KEY);
+    if (!gLocations) gLocations = [];
     gLocations.push(currLocation);
     saveToStorage(STORAGE_LOC_KEY, gLocations);
+    console.log('gLocations is:', gLocations)
 }
 
 export const travelService = {
