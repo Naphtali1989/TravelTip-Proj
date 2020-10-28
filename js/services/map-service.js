@@ -1,13 +1,7 @@
 'use strict';
-var gMap;
-
-
-
-// test if export works: 
-function iAmAMap() {
-    console.log(' MAPSSSSSSS!')
+export const mapService = {
+    getLocs: getLocs,
 }
-
 var locs = [{ lat: 11.22, lng: 22.11 }]
 
 function getLocs() {
@@ -16,7 +10,4 @@ function getLocs() {
             resolve(locs);
         }, 2000)
     });
-}
-export const mapService = {
-    getLocs
 }

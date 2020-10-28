@@ -1,9 +1,9 @@
 'use strict';
 
-import { travelService } from './services/travel-service.js';
+// import { travelService } from './services/travel-service.js';
 import { mapService } from './services/map-service.js';
-
 var gMap;
+console.log('Main!');
 
 mapService.getLocs()
     .then(locs => console.log('locs', locs))
@@ -17,6 +17,7 @@ window.onload = () => {
 
     getPosition()
         .then(pos => {
+
             console.log('User position is:', pos.coords);
         })
         .catch(err => {
@@ -24,14 +25,12 @@ window.onload = () => {
         })
 }
 
-//click on this btn to get your curr loc
 document.querySelector('.loc-btn').addEventListener('click', (ev) => {
     console.log('Aha!', ev.target);
     panTo(35.6895, 139.6917);
 })
 
 
-//create a map object and render to DOM
 export function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap');
     return _connectGoogleApi()
@@ -46,7 +45,6 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
         })
 }
 
-//add marker in a curr loc
 function addMarker(loc) {
     var marker = new google.maps.Marker({
         position: loc,
@@ -61,8 +59,6 @@ function panTo(lat, lng) {
     gMap.panTo(laLatLng);
 }
 
-
-
 function getPosition() {
     console.log('Getting Pos');
     return new Promise((resolve, reject) => {
@@ -71,8 +67,6 @@ function getPosition() {
 }
 
 
-
-//connect to api
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
     const API_KEY = 'AIzaSyCQigCXfm-p5j0gFc2LVoLLhd1EW1gXWTo'; //TODO: Enter your API Key
@@ -89,35 +83,52 @@ function _connectGoogleApi() {
 
 
 
-function onInit() {
-    console.log('Hello Tips!');
-    // mapService.initMap()
-    document.querySelector('.search-form').addEventListener('submit', onSetSearch)
-}
 
-function renderMyLocations() {
-    console.log('this is going to be my locations')
-}
 
-function renderCurrLocation() {
-    console.log('this is the curr locations')
 
-}
 
-function renderWeatherBox() {
-    console.log('this is where we render the weather')
 
-}
 
-function onSetSearch(ev) {
-    ev.preventDefault();
-    var elInput = document.querySelector('input[name=search-bar]');
-    travelServices.setSearch(elInput.value);
-    renderCurrLocation();
-    renderMyLocations();
-    renderWeatherBox();
-    elInput.value = '';
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function onInit() {
+//     console.log('Hello Tips!');
+//     // mapService.initMap()
+//     document.querySelector('.search-form').addEventListener('submit', onSetSearch)
+// }
+
+// function renderMyLocations() {
+//     console.log('this is going to be my locations')
+// }
+
+// function renderCurrLocation() {
+//     console.log('this is the curr locations')
+
+// }
+
+// function renderWeatherBox() {
+//     console.log('this is where we render the weather')
+
+// }
+
+// function onSetSearch() {
+//     console.log('in the set search')
+//     var elInput = document.querySelector('input[name=search-bar]')
+//     console.log(elInput)
+// }
 
 // test if export works: 
 // travelService.iAmAFunction()
