@@ -4,7 +4,7 @@ import { travelService } from './services/travel-service.js';
 import { mapService } from './services/map-service.js';
 
 var gMap;
-console.log('Main!');
+
 
 mapService.getLocs()
     .then(locs => console.log('locs', locs))
@@ -61,12 +61,7 @@ function panTo(lat, lng) {
     gMap.panTo(laLatLng);
 }
 
-function getPosition() {
-    console.log('Getting Pos');
-    return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject)
-    })
-}
+
 
 
 function _connectGoogleApi() {
