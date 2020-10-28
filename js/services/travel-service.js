@@ -18,19 +18,10 @@ function getCurrWeather(term) {
 
 
 function setSearch(val) {
-<<<<<<< HEAD
-=======
-    console.log('got val from:', val);
-    getSearchRes(val)
-        .then(res => {
-            var location = console.log('After getting from axios:', res)
-        })
     getCurrWeather(val)
         .then(res => {
             console.log('response from weather API:', res);
         })
-    var currLocation;
->>>>>>> 8245dc59da0f8cdec5997b465bc5fff9bac96de9
     getSearchRes(val)
         .then(ans => {
             gCurrLocation = {
