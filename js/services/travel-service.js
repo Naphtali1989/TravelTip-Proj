@@ -42,6 +42,14 @@ function getLocById(id) {
     return gLocations.find(loc => loc.id === id)
 }
 
+function deleteLocation(id) {
+    const idx = gLocations.findIndex(location => location.id === id);
+    if (idx === -1) return;
+    gLocations.splice(idx, 1)
+    saveToStorage(STORAGE_LOC_KEY, gLocations);
+
+}
+
 function setCurrWeather(val) {
     return getWeather(val)
         .then(res => {
@@ -76,7 +84,7 @@ function getCurrWeather() {
 function saveLocationsToStorage(currLocation) {
     gLocations = loadFromStorage(STORAGE_LOC_KEY);
     if (!gLocations) gLocations = [];
-    gLocations.push(currLocation);
+    gLocations.unshift(currLocation);
     saveToStorage(STORAGE_LOC_KEY, gLocations);
     console.log('gLocations is:', gLocations)
 }
@@ -85,8 +93,8 @@ export const travelService = {
     setSearch,
     getCurrWeather,
     getLocations,
-    getLocById
-
+    getLocById,
+    deleteLocation
 }
 
 
