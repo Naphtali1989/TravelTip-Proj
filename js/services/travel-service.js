@@ -23,6 +23,7 @@ function setSearch(val) {
             const { icon, description } = res.weather[0];
             const { speed } = res.wind;
             const { humidity, temp } = res.main;
+            console.log(res);
             const currWeather = {
                 icon,
                 description,
@@ -31,6 +32,7 @@ function setSearch(val) {
                 temp: convertToCelius(temp)
             }
             console.log('response from weather API:', currWeather);
+            return currWeather;
         })
     getSearchRes(val)
         .then(ans => {
