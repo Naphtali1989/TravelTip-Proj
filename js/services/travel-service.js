@@ -7,6 +7,13 @@ function getSearchRes(term) {
         .then(res => res.data)
 }
 
+function getCurrWeather(term) {
+    const apiKey = 'aa7ad6b6ace55f0743177e2396dbcc10'
+    return axios.get(`api.openweathermap.org/data/2.5/weather?q=${term}&appid=${apiKey}`)
+        .then(res => console.log(res.data))
+}
+
+
 function setSearch(val) {
     const res = getSearchRes(val)
     console.log('After getting from axios:', res)
