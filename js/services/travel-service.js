@@ -23,11 +23,12 @@ function setSearch(val) {
         .then(ans => {
             gCurrLocation.searchTerm = val;
             gCurrLocation.results = ans.results;
+            gCurrLocation.createdAt = Date.now();
+            gCurrLocation.updatedAt = Date.now();
             console.log(gCurrLocation)
             return gCurrLocation;
         })
-        .then(saveLocationsToStorage);
-
+        .then(saveLocationsToStorage)
 }
 
 function setCurrWeather(val) {
@@ -72,8 +73,6 @@ export const travelService = {
     getCurrLocation,
 
 }
-
-
 
 
 function convertToCelius(temp) {
