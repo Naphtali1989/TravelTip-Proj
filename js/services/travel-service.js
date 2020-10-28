@@ -9,7 +9,28 @@ function getSearchRes(term) {
         .then(res => res.data)
 }
 
+function getCurrWeather(term) {
+    console.log('term is:', term);
+    const apiKey = 'aa7ad6b6ace55f0743177e2396dbcc10';
+    return axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${term}&appid=aa7ad6b6ace55f0743177e2396dbcc10`)
+        .then(res => res.data)
+}
+
+
 function setSearch(val) {
+<<<<<<< HEAD
+=======
+    console.log('got val from:', val);
+    getSearchRes(val)
+        .then(res => {
+            var location = console.log('After getting from axios:', res)
+        })
+    getCurrWeather(val)
+        .then(res => {
+            console.log('response from weather API:', res);
+        })
+    var currLocation;
+>>>>>>> 8245dc59da0f8cdec5997b465bc5fff9bac96de9
     getSearchRes(val)
         .then(ans => {
             gCurrLocation = {
