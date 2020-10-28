@@ -3,5 +3,55 @@
 }
 
 body {
-    background-color: blue;
+    background-color: royalblue;
+    margin: 0;
 }
+
+
+/*Basic*/
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style-type: none;
+}
+
+
+/*Layout*/
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #fafafa;
+    height: 70px;
+}
+
+.main-content {
+    display: flex;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+}
+
+nav li {
+    font-size: 25px;
+}
+
+
+/*Helpers*/
+
+.flex {
+    display: flex;
+}
+
+.main-footer {}

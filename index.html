@@ -9,7 +9,35 @@
 </head>
 
 <body>
+    <header class="main-header">
+        <div class="brand">
+            Marvel Tips
+        </div>
+        <nav>
+            <a href="">Link 1</a>
+            <a href="">Link 2</a>
+            <a href="">Link 3</a>
+        </nav>
+    </header>
 
+    <main class="main-content">
+        <form>
+            <input type="text" name="search-bar" placeholder="Search locations...">
+            <button class="search-btn">Search</button>
+            <button class="loc-btn">My Location</button>
+        </form>
+        <div class="curr-location"></div>
+        <aside class="info-container">
+            <section class="weather"></section>
+            <section class="locations"></section>
+        </aside>
+        <section class="map-container"></section>
+    </main>
+
+    <footer class="main-footer">
+        <small>Hello world</small>
+    </footer>
+    <script src="js/lib/axios.js"></script>
     <script type="module" src="js/page-controller.js"></script>
 </body>
 
