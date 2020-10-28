@@ -10,6 +10,8 @@ function loadFromStorage(key) {
     return JSON.parse(str);
 }
 
+
+//export the service
 export const storageService = {
     justForTest,
     saveToStorage,
