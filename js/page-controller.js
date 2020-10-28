@@ -46,6 +46,7 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
         })
 }
 
+//add marker in a curr loc
 function addMarker(loc) {
     var marker = new google.maps.Marker({
         position: loc,
@@ -60,6 +61,8 @@ function panTo(lat, lng) {
     gMap.panTo(laLatLng);
 }
 
+
+
 function getPosition() {
     console.log('Getting Pos');
     return new Promise((resolve, reject) => {
@@ -68,6 +71,8 @@ function getPosition() {
 }
 
 
+
+//connect to api
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
     const API_KEY = 'AIzaSyCQigCXfm-p5j0gFc2LVoLLhd1EW1gXWTo'; //TODO: Enter your API Key
