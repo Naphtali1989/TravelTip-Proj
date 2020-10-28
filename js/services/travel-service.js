@@ -29,8 +29,17 @@ function setSearch(val) {
             console.log(gCurrLocation)
             return gCurrLocation;
         })
-        .then(saveLocationsToStorage)
+        .then(res => {
+            saveLocationsToStorage(res);
+            return res;
+            console.log('AFTER STORAGE SAVE:', res);
+        })
 
+}
+
+
+function getLocById(id) {
+    return gLocations.find(loc => loc.id === id)
 }
 
 function setCurrWeather(val) {
@@ -52,9 +61,11 @@ function setCurrWeather(val) {
 
 
 function getLocations() {
+    gLocations = loadFromStorage(STORAGE_LOC_KEY);
     console.log('Locations in service:', gLocations);
-    return gLocations;
+    return gLocations
 }
+
 
 function getCurrWeather() {
     return gCurrLocation.weather;
@@ -74,6 +85,7 @@ export const travelService = {
     setSearch,
     getCurrWeather,
     getLocations,
+    getLocById
 
 }
 

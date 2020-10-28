@@ -48,6 +48,11 @@ ul {
     flex-direction: column;
 }
 
+.weather-info {
+    display: flex;
+    flex-direction: column;
+}
+
 nav li {
     font-size: 25px;
 }

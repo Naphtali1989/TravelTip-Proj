@@ -12,12 +12,15 @@ window.onload = () => {
     initMap()
         .then(() => {
             addMarker({ lat: 32.0749831, lng: 34.9120554 });
+            const locations = travelService.getLocations();
+            renderLocations(locations);
         })
         .catch(console.log);
 }
 
 document.querySelector('.search-form').addEventListener('submit', onSetSearch)
 document.querySelector('.loc-btn').addEventListener('click', onFindUserLocation)
+
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     return _connectGoogleApi()
@@ -47,18 +50,59 @@ function panTo(lat, lng) {
 function onSetSearch(ev) {
     ev.preventDefault()
     var elInput = document.querySelector('input[name=search-bar]');
-    travelService.setSearch(elInput.value).then(data => {
+    travelService.setSearch(elInput.value).then(location => {
         const locations = travelService.getLocations();
         renderLocations(locations)
-        console.log('locations in controller:', locations);
+        renderWeatherBox(location.id);
     })
 
 }
 
 
 
+
+function renderWeatherBox(locId) {
+    const location = travelService.getLocById(locId)
+    console.log();
+    const { description, humidity, icon, speed, temp } = location.weather;
+    const iconImg = `https://openweathermap.org/img/wn/${icon}@2x.png`
+    const strHtml = `<div class="weather-card">
+                   <h1>Weather At <span>${location.searchTerm}</span></h1>
+                   <img src="${iconImg}" />
+                   <div class="weather-info">
+                        <span>${description}</span>
+                        <span>Temp: ${temp}Celcious</span>
+                        <span>humidity: ${humidity}</span>
+                        <span>Wind speed: ${speed}</span>
+                   </div>
+                </div>
+                `
+    document.querySelector('.weather-container').innerHTML = strHtml;
+}
+// function renderWeatherBox(locId) {
+//     console.log('Weather locations:', locations);
+//     const location = travelService.getLocById(locId)
+//     const strHtmls = locations.map(loc => {
+//         const { description, humidity, icon, speed, temp } = loc.weather
+//         return `<div class="weather-card">
+//                    <h1>Weather At <span>${loc.searchTerm}</span></h1>
+//                    <img src="${iconImg}" />
+//                    <div class="weather-info">
+//                         <span>${description}</span>
+//                         <span>Temp: ${temp}Celcious</span>
+//                         <span>humidity: ${humidity}Celcious</span>
+//                         <span>Wind speed: ${speed}</span>
+//                    </div>
+//                 </div>
+//                 `
+//     }).join('');
+//     document.querySelector('.weather-container').innerHTML = strHtmls;
+// }
+
+
+
+
 function renderLocations(locations) {
-    console.log('Locations in render locations:', locations);
     const strHtmls = locations.map(loc => {
         const { lat, lng } = loc.results[0].geometry.location
         const formatTime = new Date(loc.createdAt).toLocaleString();
@@ -104,14 +148,6 @@ function _connectGoogleApi() {
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
 }
-
-
-
-function renderWeatherBox() {
-    const currWeather = travelService.getCurrWeather();
-    console.log(currWeather);
-
-};
 
 
 
