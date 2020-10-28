@@ -2,6 +2,7 @@
 
 const STORAGE_LOC_KEY = 'locationsDB';
 var gLocations;
+var gCurrLocation;
 
 function getSearchRes(term) {
     return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${term}&key=AIzaSyAb-nOgpqD_gjhW9jUy6raZW06HfTaFhPI`)
@@ -9,14 +10,13 @@ function getSearchRes(term) {
 }
 
 function setSearch(val) {
-    var currLocation;
     getSearchRes(val)
         .then(ans => {
-            currLocation = {
+            gCurrLocation = {
                 searchTerm: val,
                 results: ans.results,
             }
-            return currLocation;
+            return gCurrLocation;
         })
         .then(saveLocationsToStorage);
     // 
