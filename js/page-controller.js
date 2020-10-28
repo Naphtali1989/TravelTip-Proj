@@ -1,9 +1,10 @@
 'use strict';
 
-// import { travelService } from './services/travel-service.js';
+import { travelService } from './services/travel-service.js';
 import { mapService } from './services/map-service.js';
+
 var gMap;
-console.log('Main!');
+
 
 mapService.getLocs()
     .then(locs => console.log('locs', locs))
@@ -13,37 +14,41 @@ window.onload = () => {
         .then(() => {
             addMarker({ lat: 32.0749831, lng: 34.9120554 });
         })
-        .catch(console.log('INIT MAP ERROR'));
-
+        .catch(console.log);
     getPosition()
         .then(pos => {
-
             console.log('User position is:', pos.coords);
         })
         .catch(err => {
             console.log('err!!!', err);
         })
 }
-
+document.querySelector('.search-form').addEventListener('submit', onSetSearch)
 document.querySelector('.loc-btn').addEventListener('click', (ev) => {
     console.log('Aha!', ev.target);
     panTo(35.6895, 139.6917);
 })
 
-
-export function initMap(lat = 32.0749831, lng = 34.9120554) {
-    console.log('InitMap');
+function initMap(lat = 32.0749831, lng = 34.9120554) {
     return _connectGoogleApi()
         .then(() => {
-            console.log('google available');
             gMap = new google.maps.Map(
                 document.querySelector('#map'), {
                     center: { lat, lng },
                     zoom: 15
                 })
-            console.log('Map!', gMap);
         })
 }
+// export function initMap(lat = 32.0749831, lng = 34.9120554) {  --- code from the materials
+//     return _connectGoogleApi()
+//         .then(() => {
+//             gMap = new google.maps.Map(
+//                 document.querySelector('#map'), {
+//                     center: { lat, lng },
+//                     zoom: 15
+//                 })
+//         })
+// }
 
 function addMarker(loc) {
     var marker = new google.maps.Marker({
@@ -59,17 +64,20 @@ function panTo(lat, lng) {
     gMap.panTo(laLatLng);
 }
 
-function getPosition() {
-    console.log('Getting Pos');
-    return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject)
-    })
+function onSetSearch(ev) {
+    ev.preventDefault()
+    var elInput = document.querySelector('input[name=search-bar]')
+    travelService.setSearch(elInput.value)
 }
+
+
+
+
 
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
-    const API_KEY = 'AIzaSyCQigCXfm-p5j0gFc2LVoLLhd1EW1gXWTo'; //TODO: Enter your API Key
+    const API_KEY = 'AIzaSyAb-nOgpqD_gjhW9jUy6raZW06HfTaFhPI';
     var elGoogleApi = document.createElement('script');
     elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
     elGoogleApi.async = true;
@@ -124,11 +132,6 @@ function _connectGoogleApi() {
 
 // }
 
-// function onSetSearch() {
-//     console.log('in the set search')
-//     var elInput = document.querySelector('input[name=search-bar]')
-//     console.log(elInput)
-// }
 
 // test if export works: 
 // travelService.iAmAFunction()

@@ -1,17 +1,21 @@
 'use strict';
 
-import { storageService } from './services/storage-service.js';
-import { mapService } from './services/map-service.js';
+var gLocations;
 
+function getSearchRes(term) {
+    return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${term}&key=AIzaSyAb-nOgpqD_gjhW9jUy6raZW06HfTaFhPI`)
+        .then(res => res.data)
+}
 
 function setSearch(val) {
-    console.log('Just for func');
+    const res = getSearchRes(val)
+    console.log('After getting from axios:', res)
 }
 
 function saveLocationsToStorage(currLocation) {
-    var currStorage = storageService.loadFromStorage();
+    var currStorage = loadFromStorage();
     currStorage.push(currLocation);
-    storageService.saveToStorage();
+    saveToStorage();
 }
 
 export const travelService = {
@@ -22,4 +26,14 @@ export const travelService = {
 // test if export works: 
 function iAmAFunction() {
     console.log(' FUNCTIONS!')
+}
+
+function saveToStorage(key, val) {
+    var str = JSON.stringify(val);
+    localStorage.setItem(key, str);
+}
+
+function loadFromStorage(key) {
+    var str = localStorage.getItem(key);
+    return JSON.parse(str);
 }
