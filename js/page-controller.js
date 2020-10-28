@@ -6,8 +6,7 @@ import { mapService } from './services/map-service.js';
 var gMap;
 
 
-mapService.getLocs()
-    .then(locs => console.log('locs', locs))
+
 
 window.onload = () => {
     initMap()
@@ -15,23 +14,10 @@ window.onload = () => {
             addMarker({ lat: 32.0749831, lng: 34.9120554 });
         })
         .catch(console.log);
-    mapService.getPosition()
-        .then(pos => {
-            console.log('User position is:', pos.coords);
-        })
-        .catch(err => {
-            console.log('err!!!', err);
-        })
 }
+
 document.querySelector('.search-form').addEventListener('submit', onSetSearch)
-
-document.querySelector('.loc-btn').addEventListener('click', (ev) => {
-    mapService.getPosition()
-        .then(ans => {
-            panTo(ans.coords.latitude, ans.coords.longitude)
-        });
-
-})
+document.querySelector('.loc-btn').addEventListener('click', onFindUserLocation)
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     return _connectGoogleApi()
@@ -43,22 +29,12 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 })
         })
 }
-// export function initMap(lat = 32.0749831, lng = 34.9120554) {  --- code from the materials
-//     return _connectGoogleApi()
-//         .then(() => {
-//             gMap = new google.maps.Map(
-//                 document.querySelector('#map'), {
-//                     center: { lat, lng },
-//                     zoom: 15
-//                 })
-//         })
-// }
 
 function addMarker(loc) {
     var marker = new google.maps.Marker({
         position: loc,
         map: gMap,
-        title: 'Hello World!'
+        title: 'This place sucks!'
     });
     return marker;
 }
@@ -74,7 +50,20 @@ function onSetSearch(ev) {
     travelService.setSearch(elInput.value)
 }
 
+function onFindUserLocation() {
+    mapService.getPosition()
+        .then(ans => {
+            var location = { lat: ans.coords.latitude, lng: ans.coords.longitude };
+            panTo(location.lat, location.lng);
+            addMarker(location);
+        })
+        .catch(err => {
+            console.log('err!!!', err);
+        })
+}
 
+mapService.getLocs()
+    .then(locs => console.log('locs', locs))
 
 
 
