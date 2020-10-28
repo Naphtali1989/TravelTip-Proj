@@ -82,6 +82,13 @@ function _connectGoogleApi() {
 
 
 
+function renderWeatherBox() {
+    const currWeather = travelService.getCurrWeather();
+    console.log(currWeather);
+
+};
+
+
 
 
 
