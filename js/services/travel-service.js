@@ -2,14 +2,14 @@
 
 const STORAGE_LOC_KEY = 'locationsDB';
 var gLocations;
-var gCurrLocation;
+var gCurrLocation = {};
 
 function getSearchRes(term) {
     return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${term}&key=AIzaSyAb-nOgpqD_gjhW9jUy6raZW06HfTaFhPI`)
         .then(res => res.data)
 }
 
-function getCurrWeather(term) {
+function getWeather(term) {
     console.log('term is:', term);
     const apiKey = 'aa7ad6b6ace55f0743177e2396dbcc10';
     return axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${term}&appid=aa7ad6b6ace55f0743177e2396dbcc10`)
@@ -36,15 +36,42 @@ function setSearch(val) {
         })
     getSearchRes(val)
         .then(ans => {
-            gCurrLocation = {
-                searchTerm: val,
-                results: ans.results,
-            }
+            gCurrLocation.searchTerm = val;
+            gCurrLocation.results = ans.results;
+            console.log(gCurrLocation)
             return gCurrLocation;
         })
         .then(saveLocationsToStorage);
-    // 
+
 }
+
+function setCurrWeather(val) {
+    getWeather(val)
+        .then(res => {
+            const { icon, description } = res.weather[0];
+            const { speed } = res.wind;
+            const { humidity, temp } = res.main;
+            gCurrLocation.weather = {
+                    icon,
+                    description,
+                    speed,
+                    humidity,
+                    temp: convertToCelius(temp)
+                }
+                // console.log('response from weather API:', currWeather);
+        })
+}
+
+function getCurrLocation() {
+    return gCurrLocation;
+}
+
+
+function getCurrWeather() {
+    return gCurrLocation.weather;
+}
+
+
 
 function saveLocationsToStorage(currLocation) {
     gLocations = loadFromStorage(STORAGE_LOC_KEY);
@@ -55,8 +82,10 @@ function saveLocationsToStorage(currLocation) {
 }
 
 export const travelService = {
-    iAmAFunction,
     setSearch,
+    getCurrWeather,
+    getCurrLocation,
+
 }
 
 
@@ -64,11 +93,6 @@ export const travelService = {
 
 function convertToCelius(temp) {
     return parseInt(temp - 273.15);
-}
-
-// test if export works: 
-function iAmAFunction() {
-    console.log(' FUNCTIONS!')
 }
 
 function saveToStorage(key, val) {
