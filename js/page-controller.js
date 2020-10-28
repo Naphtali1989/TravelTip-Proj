@@ -15,7 +15,7 @@ window.onload = () => {
             addMarker({ lat: 32.0749831, lng: 34.9120554 });
         })
         .catch(console.log);
-    getPosition()
+    mapService.getPosition()
         .then(pos => {
             console.log('User position is:', pos.coords);
         })
@@ -24,6 +24,7 @@ window.onload = () => {
         })
 }
 document.querySelector('.search-form').addEventListener('submit', onSetSearch)
+
 document.querySelector('.loc-btn').addEventListener('click', (ev) => {
     console.log('Aha!', ev.target);
     panTo(35.6895, 139.6917);
