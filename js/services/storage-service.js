@@ -13,11 +13,11 @@ function loadFromStorage(key) {
 
 //export the service
 export const storageService = {
-    // justForTest,
+    justForTest,
     saveToStorage,
     loadFromStorage,
 }
 
-// function justForTest() {
-//     console.log('hello!')
-// }
+function justForTest() {
+    console.log('hello!')
+}

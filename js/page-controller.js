@@ -1,7 +1,8 @@
 'use strict';
 
-// import { travelService } from './services/travel-service.js';
+import { travelService } from './services/travel-service.js';
 import { mapService } from './services/map-service.js';
+
 var gMap;
 console.log('Main!');
 
@@ -9,11 +10,12 @@ mapService.getLocs()
     .then(locs => console.log('locs', locs))
 
 window.onload = () => {
+
     initMap()
         .then(() => {
             addMarker({ lat: 32.0749831, lng: 34.9120554 });
         })
-        .catch(console.log('INIT MAP ERROR'));
+        .catch(console.log);
 
     getPosition()
         .then(pos => {
@@ -24,7 +26,7 @@ window.onload = () => {
             console.log('err!!!', err);
         })
 }
-
+document.querySelector('.search-form').addEventListener('submit', onSetSearch)
 document.querySelector('.loc-btn').addEventListener('click', (ev) => {
     console.log('Aha!', ev.target);
     panTo(35.6895, 139.6917);
@@ -124,11 +126,13 @@ function _connectGoogleApi() {
 
 // }
 
-// function onSetSearch() {
-//     console.log('in the set search')
-//     var elInput = document.querySelector('input[name=search-bar]')
-//     console.log(elInput)
-// }
+function onSetSearch(ev) {
+    ev.preventDefault()
+    console.log('in the set search')
+    var elInput = document.querySelector('input[name=search-bar]')
+    console.log(elInput)
+    travelService.setSearch(elInput.value)
+}
 
 // test if export works: 
 // travelService.iAmAFunction()
