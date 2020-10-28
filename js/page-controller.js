@@ -46,8 +46,33 @@ function panTo(lat, lng) {
 
 function onSetSearch(ev) {
     ev.preventDefault()
-    var elInput = document.querySelector('input[name=search-bar]')
-    travelService.setSearch(elInput.value)
+    var elInput = document.querySelector('input[name=search-bar]');
+    travelService.setSearch(elInput.value).then(data => {
+        const locations = travelService.getLocations();
+        renderLocations(locations)
+        console.log('locations in controller:', locations);
+    })
+
+}
+
+
+
+function renderLocations(locations) {
+    console.log('Locations in render locations:', locations);
+    const strHtmls = locations.map(loc => {
+        const { lat, lng } = loc.results[0].geometry.location
+        const formatTime = new Date(loc.createdAt).toLocaleString();
+        return `<div class="loc-card" data-id="${loc.id}" data-loc="${lat}-${lng}">
+                   <h1>Location Name:${loc.searchTerm}</h1>
+                   <span>Created at: ${formatTime}</span>
+                   <div class="loc-btns">
+                        <button class="delete-btn">Delete</button>
+                        <button class="show-loc-btn">Show</button>
+                   </div>
+                </div>
+                `
+    }).join('');
+    document.querySelector('.locations').innerHTML = strHtmls;
 }
 
 function onFindUserLocation() {

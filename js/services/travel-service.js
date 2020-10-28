@@ -18,24 +18,10 @@ function getWeather(term) {
 
 
 function setSearch(val) {
-    getCurrWeather(val)
-        .then(res => {
-            const { icon, description } = res.weather[0];
-            const { speed } = res.wind;
-            const { humidity, temp } = res.main;
-            console.log(res);
-            const currWeather = {
-                icon,
-                description,
-                speed,
-                humidity,
-                temp: convertToCelius(temp)
-            }
-            console.log('response from weather API:', currWeather);
-            return currWeather;
-        })
-    getSearchRes(val)
+    setCurrWeather(val);
+    return getSearchRes(val)
         .then(ans => {
+            gCurrLocation.id = makeId()
             gCurrLocation.searchTerm = val;
             gCurrLocation.results = ans.results;
             gCurrLocation.createdAt = Date.now();
@@ -44,15 +30,16 @@ function setSearch(val) {
             return gCurrLocation;
         })
         .then(saveLocationsToStorage)
+
 }
 
 function setCurrWeather(val) {
-    getWeather(val)
+    return getWeather(val)
         .then(res => {
             const { icon, description } = res.weather[0];
             const { speed } = res.wind;
             const { humidity, temp } = res.main;
-            gCurrLocation.weather = {
+            return gCurrLocation.weather = {
                     icon,
                     description,
                     speed,
@@ -63,10 +50,11 @@ function setCurrWeather(val) {
         })
 }
 
-function getCurrLocation() {
-    return gCurrLocation;
-}
 
+function getLocations() {
+    console.log('Locations in service:', gLocations);
+    return gLocations;
+}
 
 function getCurrWeather() {
     return gCurrLocation.weather;
@@ -85,9 +73,11 @@ function saveLocationsToStorage(currLocation) {
 export const travelService = {
     setSearch,
     getCurrWeather,
-    getCurrLocation,
+    getLocations,
 
 }
+
+
 
 
 function convertToCelius(temp) {
@@ -102,4 +92,15 @@ function saveToStorage(key, val) {
 function loadFromStorage(key) {
     var str = localStorage.getItem(key);
     return JSON.parse(str);
+}
+
+function makeId(length = 10) {
+    var txt = '';
+    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (var i = 0; i < length; i++) {
+        txt += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return txt;
 }
