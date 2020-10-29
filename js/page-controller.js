@@ -38,8 +38,6 @@ document.querySelector('.copy-btn').addEventListener('click', (ev) => {
 })
 
 
-
-
 function copyToClipBoard() {
     const textArea = document.createElement('textarea');
     const currLoc = document.querySelector('.curr-loc').innerHTML;
@@ -50,7 +48,6 @@ function copyToClipBoard() {
     document.body.removeChild(textArea);
     console.log('copied!');
 }
-
 
 function onDeleteLocation(locId) {
     travelService.deleteLocation(locId);
@@ -63,7 +60,6 @@ function onShowLocation(locId) {
     const { lat, lng } = location.results[0].geometry.location
     panTo(lat, lng)
 }
-
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     return _connectGoogleApi()
@@ -89,7 +85,6 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
         //Get marker and position it based on the coords
 }
 
-
 function addMarker(loc) {
     console.log('coords:', loc)
     var marker = new google.maps.Marker({
@@ -100,8 +95,6 @@ function addMarker(loc) {
     return marker;
 }
 
-
-
 function setMarker(lat, lng) {
     const position = { lat: +lat, lng: +lng };
     const marker = new google.maps.Marker({ position: position, map: gMap })
@@ -109,7 +102,6 @@ function setMarker(lat, lng) {
     gMap.setCenter(marker.getPosition())
     console.log(gMap);
     console.log('got after set center')
-
 }
 
 function panTo(lat, lng) {
@@ -131,11 +123,13 @@ function onSetSearch(ev) {
     elInput.value = '';
 }
 
-
-
 function renderWeatherBox(locId) {
     const location = travelService.getLocById(locId);
-    const { description, humidity, icon, speed, temp } = location.weather;
+    if (location.weather) {
+        var { description, humidity, icon, speed, temp } = location.weather;
+    } else {
+        var { description, humidity, icon, speed, temp } = { description: 'N/A', humidity: 'N/A', icon: 'N/A', speed: 'N/A', temp: 'N/A' };
+    }
     const iconImg = `https://openweathermap.org/img/wn/${icon}@2x.png`
     const strHtml = `<div class="weather-card">
                    <h1>Weather At <span>${location.searchTerm}</span></h1>
@@ -144,7 +138,7 @@ function renderWeatherBox(locId) {
                         <span>${description}</span>
                         <span>Temp: ${temp} °C</span>
                         <span>humidity: ${humidity}</span>
-                        <span>Wind speed: ${speed}</span>
+                        <span>Wind speed: ${speed} m/s</span>
                    </div>
                 </div>
                 `
@@ -157,10 +151,13 @@ function renderWeatherBox(locId) {
 
 function renderLocations(locations) {
     const strHtmls = locations.map(loc => {
-        const { lat, lng } = loc.results[0].geometry.location
+        // Naphtali - im trying to get the location to show the address... only changing the loc name
+        const locName = (loc.results.length === 0) ? loc.searchTerm : loc.results[0].address_components[0].long_name;
+        // console.log('for loc id', loc.id, '-loc components is:', loc.results[0].address_components)
+        const { lat, lng } = (loc.results.length === 0) ? loc.searchTerm: loc.results[0].geometry.location;
         const formatTime = new Date(loc.createdAt).toLocaleString();
         return `<div class="loc-card" data-id="${loc.id}" data-loc="${lat}-${lng}">
-                   <h1>Location Name:${loc.searchTerm}</h1>
+                   <h1>Location Name:${locName}</h1>
                    <span>Created at: ${formatTime}</span>
                    <div class="loc-btns">
                         <button class="delete-btn"><i class="fas fa-trash"></i> Delete</button>
@@ -183,10 +180,6 @@ function onFindUserLocation() {
             console.log('err!!!', err);
         })
 }
-
-mapService.getLocs()
-    .then(locs => console.log('locs', locs))
-
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()

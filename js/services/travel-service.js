@@ -14,7 +14,6 @@ function getWeather(term) {
     const apiKey = 'aa7ad6b6ace55f0743177e2396dbcc10'
     const coords = term.split(',');
     console.log('coords:', coords);
-    console.log('got to here')
     if (Number.isInteger(coords[0])) {
         console.log('in coords search')
         return axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${coords[0]}&lon=${coords[1]}&appid=aa7ad6b6ace55f0743177e2396dbcc10`)
@@ -43,9 +42,7 @@ function setSearch(val) {
         .then(res => {
             saveLocationsToStorage(res);
             return res;
-            console.log('AFTER STORAGE SAVE:', res);
         })
-
 }
 
 function getLocById(id) {
@@ -57,7 +54,6 @@ function deleteLocation(id) {
     if (idx === -1) return;
     gLocations.splice(idx, 1)
     saveToStorage(STORAGE_LOC_KEY, gLocations);
-
 }
 
 function setCurrWeather(val) {
@@ -67,16 +63,14 @@ function setCurrWeather(val) {
             const { speed } = res.wind;
             const { humidity, temp } = res.main;
             return gCurrLocation.weather = {
-                    icon,
-                    description: description ? description : '',
-                    speed,
-                    humidity,
-                    temp: convertToCelius(temp)
-                }
-                // console.log('response from weather API:', currWeather);
+                icon,
+                description: description ? description : '',
+                speed,
+                humidity,
+                temp: convertToCelius(temp)
+            }
         })
 }
-
 
 function getLocations() {
     gLocations = loadFromStorage(STORAGE_LOC_KEY);
@@ -84,12 +78,9 @@ function getLocations() {
     return gLocations
 }
 
-
 function getCurrWeather() {
     return gCurrLocation.weather;
 }
-
-
 
 function saveLocationsToStorage(currLocation) {
     gLocations = loadFromStorage(STORAGE_LOC_KEY);
@@ -110,9 +101,9 @@ export const travelService = {
 
 
 
-function convertToCelius(temp) {
-    return parseInt(temp - 273.15);
-}
+// utils:
+
+
 
 function saveToStorage(key, val) {
     var str = JSON.stringify(val);
@@ -127,10 +118,12 @@ function loadFromStorage(key) {
 function makeId(length = 10) {
     var txt = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
     for (var i = 0; i < length; i++) {
         txt += possible.charAt(Math.floor(Math.random() * possible.length));
     }
-
     return txt;
+}
+
+function convertToCelius(temp) {
+    return parseInt(temp - 273.15);
 }
