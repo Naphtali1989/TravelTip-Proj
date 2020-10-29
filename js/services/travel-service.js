@@ -10,14 +10,25 @@ function getSearchRes(term) {
 }
 
 function getWeather(term) {
-    console.log('term is:', term);
-    const apiKey = 'aa7ad6b6ace55f0743177e2396dbcc10';
-    return axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${term}&appid=aa7ad6b6ace55f0743177e2396dbcc10`)
-        .then(res => res.data)
+    // console.log('term is:', term);
+    const apiKey = 'aa7ad6b6ace55f0743177e2396dbcc10'
+    const coords = term.split(',');
+    console.log('coords:', coords);
+    console.log('got to here')
+    if (Number.isInteger(coords[0])) {
+        console.log('in coords search')
+        return axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${coords[0]}&lon=${coords[1]}&appid=aa7ad6b6ace55f0743177e2396dbcc10`)
+            .then(res => res.data)
+
+    } else {
+        console.log('in term search!')
+        return axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${term}&appid=${apiKey}`)
+            .then(res => res.data)
+    }
 }
 
-
 function setSearch(val) {
+    console.log('getting val:', val);
     setCurrWeather(val);
     return getSearchRes(val)
         .then(ans => {
@@ -36,7 +47,6 @@ function setSearch(val) {
         })
 
 }
-
 
 function getLocById(id) {
     return gLocations.find(loc => loc.id === id)
@@ -58,7 +68,7 @@ function setCurrWeather(val) {
             const { humidity, temp } = res.main;
             return gCurrLocation.weather = {
                     icon,
-                    description,
+                    description: description ? description : '',
                     speed,
                     humidity,
                     temp: convertToCelius(temp)

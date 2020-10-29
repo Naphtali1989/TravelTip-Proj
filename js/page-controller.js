@@ -25,8 +25,31 @@ document.querySelector('.locations').addEventListener('click', (ev) => {
     if (ev.target.className === 'delete-btn') onDeleteLocation(locId)
     else if (ev.target.className === 'show-loc-btn') onShowLocation(locId);
 })
+document.querySelector('.copy-btn').addEventListener('click', (ev) => {
+    copyToClipBoard();
+    Swal.fire({
+        title: 'Copied to ClipBoard!',
+        text: 'This is cool!',
+        imageUrl: '../imgs/final.gif',
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: 'Custom image',
+    })
+})
 
 
+
+
+function copyToClipBoard() {
+    const textArea = document.createElement('textarea');
+    const currLoc = document.querySelector('.curr-loc').innerHTML;
+    textArea.value = currLoc
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+    console.log('copied!');
+}
 
 
 function onDeleteLocation(locId) {
@@ -52,27 +75,20 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 })
             gMap.addListener('click', e => {
                 console.log(e)
-                const latCoord = e.latLng.lat()
+                const latCoord = e.latLng.lat();
                 const lngCoord = e.latLng.lng();
-                console.log('lat cs:', e.latLng.lat())
-                console.log('lng coords:', e.latLng.lng())
-                document.querySelector('input[name=search-bar]').value = latCoord + ' ' + lngCoord;
-                onSetSearch()
-                    // travelService.saveLocationsToStorag(la)
-                    // addMarker({ latCoord, lngCoord })
-                marker = new google.maps.Marker({ position: e.latLng, map: gMap })
-                console.log(marker)
-                gMap.setCenter(marker.getPosition())
-                    //when user click center the map to the location of the marker
+                console.log('lat cs:', e.latLng.lat());
+                console.log('lng coords:', e.latLng.lng());
+                document.querySelector('input[name=search-bar]').value = latCoord.toFixed(3) + ',' + lngCoord.toFixed(3);
+                onSetSearch();
+                var marker = new google.maps.Marker({ position: e.latLng, map: gMap, icon: '../imgs/stickers/15.png' });
+                gMap.setCenter(marker.getPosition());
+                //when user click center the map to the location of the marker
             })
         })
         //Get marker and position it based on the coords
-    var marker = new google.maps.Marker({
-        position: { lat, lng },
-        gMap,
-        title: 'Your Location!'
-    });
 }
+
 
 function addMarker(loc) {
     console.log('coords:', loc)
@@ -109,11 +125,12 @@ function onSetSearch(ev) {
         const { lat, lng } = location.results[0].geometry.location
         panTo(lat, lng)
         renderLocations(locations)
-        renderWeatherBox(location.id);
+        renderWeatherBox(location.id)
     })
+    document.querySelector('.curr-loc').innerHTML = elInput.value;
     elInput.value = '';
-
 }
+
 
 
 function renderWeatherBox(locId) {
@@ -125,7 +142,7 @@ function renderWeatherBox(locId) {
                    <img src="${iconImg}" />
                    <div class="weather-info">
                         <span>${description}</span>
-                        <span>Temp: ${temp}Celcious</span>
+                        <span>Temp: ${temp} °C</span>
                         <span>humidity: ${humidity}</span>
                         <span>Wind speed: ${speed}</span>
                    </div>
@@ -146,8 +163,8 @@ function renderLocations(locations) {
                    <h1>Location Name:${loc.searchTerm}</h1>
                    <span>Created at: ${formatTime}</span>
                    <div class="loc-btns">
-                        <button class="delete-btn">Delete</button>
-                        <button class="show-loc-btn">Show</button>
+                        <button class="delete-btn"><i class="fas fa-trash"></i> Delete</button>
+                        <button class="show-loc-btn"><i class="fas fa-bolt"></i> Show</button>
                    </div>
                 </div>
                 `
