@@ -144,7 +144,7 @@ function renderWeatherBox(locId) {
                         <span>${description}</span>
                         <span>Temp: ${temp} °C</span>
                         <span>humidity: ${humidity}</span>
-                        <span>Wind speed: ${speed}</span>
+                        <span>Wind speed: ${speed} m/s</span>
                    </div>
                 </div>
                 `
