@@ -4,7 +4,7 @@ import { travelService } from './services/travel-service.js';
 import { mapService } from './services/map-service.js';
 
 var gMap;
-
+var unavailableWeather = { description: 'N/A', humidity: 'N/A', icon: 'N/A', speed: 'N/A', temp: 'N/A' }
 
 
 
@@ -125,10 +125,11 @@ function onSetSearch(ev) {
 
 function renderWeatherBox(locId) {
     const location = travelService.getLocById(locId);
+    // Naphtali - im trying to get the location to show the address... changed the loc name and solved the weather issue
     if (location.weather) {
         var { description, humidity, icon, speed, temp } = location.weather;
     } else {
-        var { description, humidity, icon, speed, temp } = { description: 'N/A', humidity: 'N/A', icon: 'N/A', speed: 'N/A', temp: 'N/A' };
+        var { description, humidity, icon, speed, temp } = unavailableWeather;
     }
     const iconImg = `https://openweathermap.org/img/wn/${icon}@2x.png`
     const strHtml = `<div class="weather-card">
@@ -151,7 +152,7 @@ function renderWeatherBox(locId) {
 
 function renderLocations(locations) {
     const strHtmls = locations.map(loc => {
-        // Naphtali - im trying to get the location to show the address... only changing the loc name
+        // Naphtali - im trying to get the location to show the address... changed the loc name and solved the weather issue
         const locName = (loc.results.length === 0) ? loc.searchTerm : loc.results[0].address_components[0].long_name;
         // console.log('for loc id', loc.id, '-loc components is:', loc.results[0].address_components)
         const { lat, lng } = (loc.results.length === 0) ? loc.searchTerm: loc.results[0].geometry.location;
