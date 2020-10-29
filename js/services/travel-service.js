@@ -21,7 +21,7 @@ function getWeather(term) {
 
     } else {
         console.log('in term search!')
-        return axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${term}&appid=${apiKey}`)
+        return axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${term}&appid=${apiKey}`)
             .then(res => res.data)
     }
 }
@@ -101,9 +101,8 @@ export const travelService = {
 
 
 
+
 // utils:
-
-
 
 function saveToStorage(key, val) {
     var str = JSON.stringify(val);
