@@ -38,8 +38,6 @@ document.querySelector('.copy-btn').addEventListener('click', (ev) => {
 })
 
 
-
-
 function copyToClipBoard() {
     const textArea = document.createElement('textarea');
     const currLoc = document.querySelector('.curr-loc').innerHTML;
@@ -50,7 +48,6 @@ function copyToClipBoard() {
     document.body.removeChild(textArea);
     console.log('copied!');
 }
-
 
 function onDeleteLocation(locId) {
     travelService.deleteLocation(locId);
@@ -63,7 +60,6 @@ function onShowLocation(locId) {
     const { lat, lng } = location.results[0].geometry.location
     panTo(lat, lng)
 }
-
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     return _connectGoogleApi()
@@ -89,7 +85,6 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
         //Get marker and position it based on the coords
 }
 
-
 function addMarker(loc) {
     console.log('coords:', loc)
     var marker = new google.maps.Marker({
@@ -100,8 +95,6 @@ function addMarker(loc) {
     return marker;
 }
 
-
-
 function setMarker(lat, lng) {
     const position = { lat: +lat, lng: +lng };
     const marker = new google.maps.Marker({ position: position, map: gMap })
@@ -109,7 +102,6 @@ function setMarker(lat, lng) {
     gMap.setCenter(marker.getPosition())
     console.log(gMap);
     console.log('got after set center')
-
 }
 
 function panTo(lat, lng) {
@@ -130,8 +122,6 @@ function onSetSearch(ev) {
     document.querySelector('.curr-loc').innerHTML = elInput.value;
     elInput.value = '';
 }
-
-
 
 function renderWeatherBox(locId) {
     const location = travelService.getLocById(locId);
@@ -183,10 +173,6 @@ function onFindUserLocation() {
             console.log('err!!!', err);
         })
 }
-
-mapService.getLocs()
-    .then(locs => console.log('locs', locs))
-
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
